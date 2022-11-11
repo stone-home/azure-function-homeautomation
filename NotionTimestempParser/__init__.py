@@ -1,5 +1,6 @@
 import datetime
 import logging
+import json
 import azure.functions as func
 
 
@@ -31,4 +32,4 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             "include_time": False
         }
     finally:
-        return func.HttpResponse(output, status_code=200)
+        return func.HttpResponse(json.dumps(output), mimetype="application/json", status_code=200)
