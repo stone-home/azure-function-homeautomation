@@ -4,14 +4,15 @@ import azure.functions as func
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    s = req.get_json()
+    payload = req.get_json()
+    input_date = payload.get("date")
     logging.info('Python HTTP trigger function processed a request.')
 
     time_format = "%Y-%m-%dT%H:%M:%S.%fZ"
     date_format = "%Y-%m-%d"
 
     try:
-        out = datetime.datetime.strptime(s, time_format)
+        out = datetime.datetime.strptime(input_date, time_format)
         output = {
             "year": out.year,
             "month": out.month,
@@ -22,7 +23,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             "include_time": True
         }
     except ValueError:
-        out = datetime.datetime.strptime(s, date_format)
+        out = datetime.datetime.strptime(input_date, date_format)
         output = {
             "year": out.year,
             "month": out.month,
